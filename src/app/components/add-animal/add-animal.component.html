@@ -1,0 +1,59 @@
+<p>add-animal works!</p>
+
+<form [formGroup]="animalForm" (ngSubmit)="handleSubmit()">
+    <label>Vad heter djuret? </label>
+    <input type="text" formControlName="name" />
+
+    <br>
+    <br>
+
+    <div *ngIf="animalForm.get('name')?.invalid && (animalForm.get('name')?.touched || animalForm.get('name')?.dirty)">
+        
+        <div *ngIf="animalForm.get('name')?.errors?.['required']">
+            Detta fält är obligatoriskt
+        </div>
+
+        <div *ngIf="animalForm.get('name')?.errors?.['minlength']">
+            Namn måste innehålla minst två tecken
+        </div>
+
+    </div>
+
+
+    <label>Vilket djur är det? </label>
+    <input type="text" formControlName="type" />
+
+    <br>
+    <br>
+
+    <label>Information om djuret: </label>
+    <input type="text" formControlName="description" />
+
+    
+    <br>
+    <br>
+    
+    <button type="submit" [disabled]="!animalForm.valid">Spara</button>
+
+    <br>
+    <br>
+
+    <div formArrayName="nickNames">
+ 
+
+        <div *ngFor="let nick of nicknames.controls; let i = index">
+            
+            <label>  Smeknamn: </label>
+            <input type="text" [formControlName]="i" />
+            <button [disabled]="!animalForm.valid" (click)="addNickname()">Lägg till</button>
+        </div>
+    </div>
+
+    <br>
+
+    
+</form>
+
+<p>
+    {{ animalForm.value | json }}
+</p>
